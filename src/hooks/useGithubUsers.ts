@@ -16,6 +16,7 @@ const useGitHubSearch = (query: string): UserSearchResult => {
     let timer: NodeJS.Timeout | null = null;
 
     const searchUsers = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(
           'https://api.github.com/search/users',
@@ -45,7 +46,7 @@ const useGitHubSearch = (query: string): UserSearchResult => {
 
       timer = setTimeout(() => {
         searchUsers();
-      }, 300);
+      }, 1000);
     };
 
     setLoading(true);

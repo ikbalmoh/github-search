@@ -7,37 +7,53 @@ import { Repository, UserRepositories } from '../types/github';
  * @param username - The search query.
  * @returns repositories, loading & error message
  */
-const useGitHubRepositories = (username: string | null): UserRepositories => {
+const useGitHubRepositories = (username: string): UserRepositories => {
+  const [firstRender, setFirstRender] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repositories, setRepositories] = useState<{
+    [key: string]: Repository[];
+  }>({});
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const searchUsers = async () => {
+    setFirstRender(false);
+  }, []);
+
+  useEffect(() => {
+    if (firstRender) {
+      return;
+    }
+    const fetchRepositories = async (username: string) => {
       setLoading(true);
       try {
         const { data } = await axios.get<Repository[]>(
           `https://api.github.com/users/${username}/repos`
         );
-        setRepositories(data);
+        setRepositories({
+          ...repositories,
+          [username]: data,
+        });
         setError(null);
       } catch (error) {
-        setRepositories([]);
         setError('Error fetching repositories. Please try again.');
       } finally {
         setLoading(false);
       }
     };
 
-    setRepositories([]);
     setError(null);
 
-    if (username) {
-      searchUsers();
+    if (username && repositories[username] === undefined) {
+      fetchRepositories(username);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
-  return { repositories, error, loading };
+  const userRepositories: Repository[] = username
+    ? repositories[username] ?? []
+    : [];
+
+  return { repositories: userRepositories ?? [], error, loading };
 };
 
 export default useGitHubRepositories;
