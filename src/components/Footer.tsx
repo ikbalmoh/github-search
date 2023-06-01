@@ -13,7 +13,7 @@ export default function Footer() {
       </a>
       <a
         className="text-sm mt-1 hover:text-indigo-600 intro-y"
-        href={process.env.PUBLIC_URL}
+        href={'https://github.com/iikmoh/github-search'}
       >
         Source available on{' '}
         <span className="text-indigo-600 font-medium">Github</span>
