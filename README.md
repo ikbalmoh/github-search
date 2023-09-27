@@ -1,10 +1,10 @@
 # Github Search
 
-Gitub Search is a simple and sleek web application to search github user by username and display a list of all repositories associated with the user. All data is taken from [github api](https://docs.github.com/en/rest)
+GitHub Search is a simple and sleek web application to search GitHub users by username and display a list of all repositories associated with the user. All data is taken from [github api](https://docs.github.com/en/rest)
 
 ## Demo
 
-Visit the demo [here](https://iikmoh.github.io/github-search/)
+Visit the demo [here](https://ikbalmoh.github.io/github-search/)
 
 ## Tech Stack
 - ReactJS using [CRA](https://create-react-app.dev)
